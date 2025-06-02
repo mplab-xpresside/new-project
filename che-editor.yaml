@@ -60,8 +60,7 @@ components:
     volume: {}
   - name: che-code-injector
     container:
-      image: quay.io/branding-organization/vs-code-open-source:next
-      command: ["/entrypoint-init-container.sh"]
+      image: 636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-ide-image:v1.60      
       volumeMounts:
         - name: checode
           path: /checode
