@@ -58,13 +58,13 @@ components:
       app.kubernetes.io/part-of: che-code.eclipse.org
   - name: checode
     volume: {}
-  - name: che-code-injector
-    container:
-      image: 636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-ide-image:v1.60      
-      volumeMounts:
-        - name: checode
-          path: /checode
-      memoryLimit: 128Mi
-      memoryRequest: 32Mi
-      cpuLimit: 500m
-      cpuRequest: 30m
+  # - name: che-code-injector
+  #   container:
+  #     image: 636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-ide-image:v1.60      
+  #     volumeMounts:
+  #       - name: checode
+  #         path: /checode
+  #     memoryLimit: 128Mi
+  #     memoryRequest: 32Mi
+  #     cpuLimit: 500m
+  #     cpuRequest: 30m
