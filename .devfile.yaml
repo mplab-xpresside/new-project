@@ -1,0 +1,200 @@
+schemaVersion: 2.2.2
+metadata:
+  name: mplax-xpress
+components:
+  - name: xpress-ide
+    container:
+      image: "636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-ide-image:v1.60"
+      env:
+        - name: THEIA_PLUGINS
+          value: local-dir:../plugins
+        - name: HOSTED_PLUGIN_HOSTNAME
+          value: 0.0.0.0
+        - name: HOSTED_PLUGIN_PORT
+          value: "3130"
+        - name: KUBEDOCK_ENABLED
+          value: "true"
+      volumes:
+        - mountPath: "/plugins"
+          name: plugins
+        - mountPath: "/home/projects"
+          name: xpressprojects
+      mountSources: true
+      endpoints:
+      attributes:
+        - exposure: public
+          name: xpress          
+          protocol: https            
+          secure: false
+          public: true
+          targetPort: 3000
+          attributes:
+            type: main
+            cookiesAuthEnabled: true
+            urlRewriteSupported: true
+            discoverable: false
+        - name: "theia-dev"
+          public: true
+          targetPort: 3130
+          attributes:
+            protocol: http
+            type: ide-dev
+            discoverable: false
+        - name: "theia-dev"
+          public: true
+          targetPort: 3130
+          attributes:
+            protocol: http
+            type: ide-dev
+            discoverable: false
+        - name: "theia-redirect-1"
+          public: true
+          targetPort: 13131
+          attributes:
+            protocol: http
+            discoverable: false
+        - name: "theia-redirect-2"
+          public: true
+          targetPort: 13132
+          attributes:
+            protocol: http
+            discoverable: false
+        - name: "theia-redirect-3"
+          public: true
+          targetPort: 13133
+          attributes:
+            protocol: http
+            discoverable: false
+      ports:
+          - exposedPort: 3000
+          - exposedPort: 3130
+          - exposedPort: 9003
+          - exposedPort: 8090
+      memoryLimit: "2.5Gi"
+      memoryRequest: "1Gi"
+commands:
+  - exec:
+      commandLine: cd browser-app && yarn start
+      component: runtime
+      group:
+        isDefault: true
+        kind: run
+      workingDir: ${PROJECT_SOURCE}
+    id: run
+# version: 2.0.0
+# editors:
+#   - schemaVersion: 2.2.2
+#     metadata:
+#       name: xpress-ide/7.100.0
+#       displayName: Xpress for Eclipse Che
+#       description: Xpress for Eclipse Che
+#       icon: /images/vscode.svg
+#       attributes:
+#         publisher: mplab-xpress
+#         version: 7.100.0
+#         title: Xpress IDE
+#         repository: https://github.com/che-incubator/che-code
+#         firstPublicationDate: '2021-10-31'
+#     components:
+#       - name: xpress-ide
+#         container:
+#           image: "636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-ide-image:v1.60"
+#           env:
+#               - name: THEIA_PLUGINS
+#                 value: local-dir:../plugins
+#               - name: HOSTED_PLUGIN_HOSTNAME
+#                 value: 0.0.0.0
+#               - name: HOSTED_PLUGIN_PORT
+#                 value: "3130"
+#           volumes:
+#               - mountPath: "/plugins"
+#                 name: plugins
+#               - mountPath: "/home/projects"
+#                 name: xpressprojects
+#           mountSources: true
+#           endpoints:
+#             - name: "xpress"
+#               public: true
+#               targetPort: 3000
+#               attributes:
+#                 protocol: http
+#                 type: ide
+#                 secure: true
+#                 cookiesAuthEnabled: true
+#                 discoverable: false
+#             - name: "theia-dev"
+#               public: true
+#               targetPort: 3130
+#               attributes:
+#                 protocol: http
+#                 type: ide-dev
+#                 discoverable: false
+#             - name: "theia-redirect-1"
+#               public: true
+#               targetPort: 13131
+#               attributes:
+#                 protocol: http
+#                 discoverable: false
+#             - name: "theia-redirect-2"
+#               public: true
+#               targetPort: 13132
+#               attributes:
+#                 protocol: http
+#                 discoverable: false
+#             - name: "theia-redirect-3"
+#               public: true
+#               targetPort: 13133
+#               attributes:
+#                 protocol: http
+#                 discoverable: false
+#           ports:
+#               - exposedPort: 3000
+#               - exposedPort: 3130
+#               - exposedPort: 13131
+#               - exposedPort: 13132
+#               - exposedPort: 13133
+#               - exposedPort: 8080
+#               - exposedPort: 9003
+#               - exposedPort: 8090
+#           memoryLimit: "2.5Gi"
+#           memoryRequest: "1Gi"
+#       - name:
+#         container:
+#           image: "636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/xpress-rest-image:v1.60.1"
+#           volumes:
+#             - mountPath: "/home/projects"
+#               name: xpressprojects
+#           mountSources: true
+#           env:
+#           - name: _JAVA_OPTIONS
+#             value: "-Xmx1280m"
+#           ports:
+#             - exposedPort: 8080
+#           memoryLimit: "2.5Gi"
+#           memoryRequest: "1Gi"
+#           endpoints:
+#           - name: "mplab-rest-server"
+#             public: true
+#             targetPort: 8080
+#             attributes:
+#               discoverable: false
+#               protocol: http          
+#       - name: mcc
+#         container:        
+#           image: "636541044155.dkr.ecr.us-west-2.amazonaws.com/xpress/prod/mcc:5.5.1"
+#           volumes:
+#             - name: xpressprojects
+#               containerPath: /home/projects
+#           endpoints:
+#             - name: mcc-view-server
+#               port: 2000
+#               attributes:
+#                 protocol: http
+#                 secure: 'false'
+#             - name: mcc-websocket-server
+#               port: 30001
+#               attributes:
+#                 protocol: ws
+#                 secure: 'false'
+#           memoryLimit: "2Gi"
+#           memoryRequest: "512Mi"
