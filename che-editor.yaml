@@ -11,7 +11,7 @@ events:
 components:
   - name: che-code-runtime-description
     container:
-      image: quay.io/devfile/universal-developer-image:ubi8-latest
+      image: quay.io/devfile/universal-developer-image:ubi9-latest
       command:
         - /checode/entrypoint-volume.sh
       volumeMounts:
